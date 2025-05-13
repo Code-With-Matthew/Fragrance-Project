@@ -8,4 +8,4 @@ export const STORE_CONFIG = {
   currency: 'USD',
   taxRate: 0.1, // 10%
   shippingCost: 15.00,
-};
+} as const
