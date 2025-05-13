@@ -1,42 +1,46 @@
-// components/ui/ProductCard.tsx
 import Image from 'next/image'
 import Link from 'next/link'
 
 interface ProductCardProps {
-  title: string
-  price: string | number // Update type untuk handle format currency
+  id: string
+  name: string
+  price: number
   imageUrl: string
-  href: string // Tambahkan properti href
-  className?: string
+  currency?: string
 }
 
-export default function ProductCard({ 
-  title, 
-  price, 
-  imageUrl, 
-  href,
-  className = '' 
-}: ProductCardProps) {
+export const ProductCard = ({ 
+  id,
+  name,
+  price,
+  imageUrl,
+  currency = 'USD'
+}: ProductCardProps) => {
   return (
-    <Link href={href} className={`block group ${className}`}>
-      <div className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow h-full">
-        <div className="aspect-square relative bg-gray-100">
-          <Image 
-            src={imageUrl} 
-            alt={title}
-            fill
-            className="object-cover"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-          />
-        </div>
-        <div className="p-4">
-          <h3 className="text-lg font-medium text-gray-900 group-hover:text-primary transition-colors">
-            {title}
-          </h3>
-          <p className="mt-1 text-gray-700 font-medium">
-            {typeof price === 'number' ? `$${price.toFixed(2)}` : price}
-          </p>
-        </div>
+    <Link 
+      href={`/products/${id}`}
+      className="group block overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-shadow"
+    >
+      <div className="relative aspect-square bg-gray-100">
+        <Image
+          src={imageUrl}
+          alt={name}
+          fill
+          className="object-cover"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        />
+      </div>
+      
+      <div className="p-4">
+        <h3 className="text-lg font-medium text-gray-900 group-hover:text-primary transition-colors">
+          {name}
+        </h3>
+        <p className="mt-1 text-gray-700 font-medium">
+          {new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency
+          }).format(price)}
+        </p>
       </div>
     </Link>
   )
